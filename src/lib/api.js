@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api', // ✅ Change if deployed
+  baseURL: 'https://manuelbackend-0x7t.onrender.com', // ✅ Change if deployed http://localhost:5000/api
 });
 
 // Optional: attach token to protected routes

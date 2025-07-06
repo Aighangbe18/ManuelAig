@@ -1,32 +1,45 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import API from "../lib/api";
+import API from "../lib/api"; // Make sure this handles baseURL and axios instance
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleChange = (e) =>
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
     try {
       const res = await API.post("/auth/login", form);
+
+      // Save token and user data to localStorage
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      // Optional: Set default Authorization header for future requests
+      API.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${res.data.token}`;
+
+      // Redirect
       navigate("/");
     } catch (err) {
-      setError("❌ Invalid credentials");
+      setError("❌ Invalid email or password");
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen px-4 bg-gray-100">
       <div className="w-full max-w-md p-6 bg-white rounded shadow">
-        <h2 className="mb-4 text-xl font-bold text-center text-gray-800">Login</h2>
+        <h2 className="mb-4 text-xl font-bold text-center text-gray-800">
+          Login
+        </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
@@ -34,6 +47,7 @@ export default function Login() {
             type="email"
             placeholder="Email"
             className="w-full px-4 py-2 border rounded"
+            value={form.email}
             onChange={handleChange}
             required
           />
@@ -42,10 +56,14 @@ export default function Login() {
             type="password"
             placeholder="Password"
             className="w-full px-4 py-2 border rounded"
+            value={form.password}
             onChange={handleChange}
             required
           />
-          <button className="w-full py-2 text-white transition bg-blue-600 rounded hover:bg-blue-700">
+          <button
+            type="submit"
+            className="w-full py-2 text-white transition bg-blue-600 rounded hover:bg-blue-700"
+          >
             Login
           </button>
         </form>

@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Search, PackageSearch } from "lucide-react";
 import ProductCard from "../components/ProductCard";
+
+
 
 const products = [
   { id: 1, name: "African Print Dress", price: 49.99, image: "/images/bluetooth.avif", description: "Beautifully patterned African dress perfect for all occasions.", category: "HeadPhones & Speaker" },
@@ -48,6 +51,7 @@ const products = [
   { id: 43, name: "Leather Sandals", price: 39.99, image: "/images/smartphone.avif", description: "Comfortable and stylish handmade leather sandals.", category: "mobile & WristWatch" }
 ];
 
+
 const categories = [
   "mobile & WristWatch",
   "drones & Cameras",
@@ -68,37 +72,40 @@ export default function Shop() {
   });
 
   return (
-    <div className="p-6">
+    <div className="p-6 max-w-7xl mx-auto">
       <motion.h2
-        className="mb-6 text-3xl font-bold text-center text-gray-800"
-        initial={{ opacity: 0, y: -10 }}
+        className="mb-10 text-4xl font-extrabold text-center text-blue-700 tracking-tight"
+        initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        Shop Our Products
+        Explore Our Unique Collections
       </motion.h2>
 
       {/* Search bar */}
-      <div className="flex justify-center mb-6">
-        <input
-          type="text"
-          placeholder="Search products..."
-          className="w-full max-w-md px-4 py-2 text-sm border rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-500"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+      <div className="flex justify-center mb-8">
+        <div className="relative w-full max-w-xl">
+          <Search className="absolute top-2.5 left-3 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search products..."
+            className="w-full pl-10 pr-4 py-3 text-sm border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
       </div>
 
       {/* Category Filter */}
-      <div className="flex flex-wrap justify-center gap-3 mb-8">
+      <div className="flex flex-wrap justify-center gap-3 mb-10">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setActiveCategory(cat)}
-            className={`px-4 py-2 rounded-full border text-sm capitalize transition duration-200 ${
+            className={`px-5 py-2.5 rounded-full text-sm font-medium transition duration-200 shadow-sm border backdrop-blur-md ${
               activeCategory === cat
                 ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                : "bg-white text-gray-800 hover:bg-blue-50"
             }`}
           >
             {cat}
@@ -108,13 +115,27 @@ export default function Shop() {
 
       {/* Products Grid */}
       {filteredProducts.length > 0 ? (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <motion.div
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4 }}
+        >
           {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
-        </div>
+        </motion.div>
       ) : (
-        <p className="text-center text-gray-500">No products found.</p>
+        <motion.div
+          className="flex flex-col items-center justify-center text-center py-20"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <PackageSearch className="w-16 h-16 text-blue-400 mb-4" />
+          <h3 className="text-2xl font-semibold text-gray-700 mb-2">No products found</h3>
+          <p className="text-gray-500">Try searching with different keywords or categories.</p>
+        </motion.div>
       )}
     </div>
   );

@@ -114,7 +114,7 @@ export default function Footer() {
 
         {/* Bottom Section */}
         <motion.p
-          className="pt-6 mt-6 text-xs text-center text-gray-500 border-t dark:text-gray-400 border-gray-400/20"
+          className="pt-6 mt-6 text-xs text-center text-gray-500 dark:text-gray-400 border-gray-400/20"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}

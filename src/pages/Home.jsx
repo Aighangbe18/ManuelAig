@@ -9,7 +9,7 @@ export default function Home() {
 
   const slides = [
     "/images/hero.avif",
-    "/images/hero2.avif",
+    "/images/headphonesbalo.avif",
     "/images/go.avif",
   ];
 
@@ -35,7 +35,7 @@ export default function Home() {
         className="relative h-screen bg-cover bg-center"
         style={{ backgroundImage: `url(${slides[currentSlide]})` }}
       >
-        <div className="absolute inset-0 bg-black/50 backdrop-blur-xs"></div>
+        <div className="absolute inset-0 bg-black/50 "></div>
 
         <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center text-white">
           <motion.h1

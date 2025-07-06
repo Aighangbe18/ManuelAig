@@ -22,6 +22,7 @@ import AdminOders from "./pages/admin/AdminOders";
 import UsersPage from "./pages/admin/UsersPage";
 import ProductsPage from "./pages/admin/ProductsPage";
 import Profile from "./pages/Profile";
+import ScrollToTop from "./components/ScrollToTop";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -39,6 +40,7 @@ export default function App() {
 
   return (
     <>
+    <ScrollToTop />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

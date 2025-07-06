@@ -23,7 +23,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [user, setUser] = useState(null);
-  const [darkMode, setDarkMode] = useState(false);
+  
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const safeParse = (data) => {
@@ -46,10 +46,7 @@ export default function Navbar() {
     setCartCount(totalQuantity);
   }, [location]);
 
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", darkMode);
-    localStorage.setItem("theme", darkMode ? "dark" : "light");
-  }, [darkMode]);
+  
 
   const handleLogout = () => {
     localStorage.removeItem("token");

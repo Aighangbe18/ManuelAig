@@ -32,9 +32,13 @@ export default function Footer() {
     { icon: <Youtube size={20} />, href: "#" },
   ];
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <motion.footer
-      className="mt-16 bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-300"
+      className="mt-16 bg-gray-100 text-gray-600"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
@@ -49,11 +53,11 @@ export default function Footer() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Link to="/" className="inline-block mb-4 text-2xl font-bold text-blue-700 dark:text-white">
+            <Link to="/" onClick={scrollToTop} className="inline-block mb-4 text-2xl font-bold text-blue-700">
               <img src="/images/emma2.png" alt="Logo" className="w-36" />
             </Link>
             <p className="text-sm leading-relaxed">
-              Welcome to <span className="font-medium text-blue-600 dark:text-blue-400">MANUEL AIG</span>, your one-stop destination for
+              Welcome to <span className="font-medium text-blue-600">MANUEL AIG</span>, your one-stop destination for
               quality products, fast delivery, and great service.
             </p>
           </motion.div>
@@ -67,18 +71,25 @@ export default function Footer() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
               >
-                <h3 className="mb-3 text-base font-semibold text-gray-800 dark:text-white">
-                  {section.title}
-                </h3>
+                <h3 className="mb-3 text-base font-semibold text-gray-800">{section.title}</h3>
                 <ul className="space-y-1 text-sm">
                   {section.links.map((link, j) => (
                     <li key={j}>
                       {link.to.startsWith("/") ? (
-                        <Link to={link.to} className="transition hover:text-blue-600 dark:hover:text-blue-400">
+                        <Link
+                          to={link.to}
+                          onClick={scrollToTop}
+                          className="transition hover:text-blue-600"
+                        >
                           {link.label}
                         </Link>
                       ) : (
-                        <a href={link.to} target="_blank" rel="noreferrer" className="transition hover:text-blue-600">
+                        <a
+                          href={link.to}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="transition hover:text-blue-600"
+                        >
                           {link.label}
                         </a>
                       )}
@@ -94,7 +105,7 @@ export default function Footer() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              <h3 className="mb-3 text-base font-semibold text-gray-800 dark:text-white">Follow Us</h3>
+              <h3 className="mb-3 text-base font-semibold text-gray-800">Follow Us</h3>
               <div className="flex gap-4 mt-2">
                 {socialIcons.map((item, i) => (
                   <a
@@ -102,7 +113,7 @@ export default function Footer() {
                     href={item.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="p-2 transition-all bg-white rounded-full shadow hover:bg-blue-600 hover:text-white dark:bg-gray-800 dark:hover:bg-blue-500"
+                    className="p-2 transition-all bg-white rounded-full shadow hover:bg-blue-600 hover:text-white"
                   >
                     {item.icon}
                   </a>
@@ -114,7 +125,7 @@ export default function Footer() {
 
         {/* Bottom Section */}
         <motion.p
-          className="pt-6 mt-6 text-xs text-center text-gray-500 dark:text-gray-400 border-gray-400/20"
+          className="pt-6 mt-6 text-xs text-center text-gray-500 border-gray-400/20"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}

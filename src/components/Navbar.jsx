@@ -1,15 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import {
-  Menu,
-  ShoppingCart,
-  User,
-  LogOut,
-  Bell,
-  Moon,
-  Sun,
-  X,
-} from "lucide-react";
+import { Menu, ShoppingCart, User, LogOut, Bell, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 function cn(...classes) {
@@ -23,7 +14,6 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [user, setUser] = useState(null);
-  
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const safeParse = (data) => {
@@ -41,12 +31,10 @@ export default function Navbar() {
     if (parsedUser) setUser(parsedUser);
     else localStorage.removeItem("user");
 
-        const storedCart = safeParse(localStorage.getItem("cart")) || [];
+    const storedCart = safeParse(localStorage.getItem("cart")) || [];
     const totalQuantity = storedCart.reduce((sum, item) => sum + item.quantity, 0);
     setCartCount(totalQuantity);
   }, [location]);
-
-  
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -56,13 +44,12 @@ export default function Navbar() {
     navigate("/");
   };
 
- const navLinks = [
-  { name: "Home", path: "/" },
-  { name: "Shop", path: "/shop" },
-  { name: "Checkout", path: "/checkout" },
-  ...(user?.isAdmin ? [{ name: "ADMIN", path: "/admin/orders" }] : []),
-];
-
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "Shop", path: "/shop" },
+    { name: "Checkout", path: "/checkout" },
+    ...(user?.isAdmin ? [{ name: "ADMIN", path: "/admin/orders" }] : []),
+  ];
 
   const getInitials = (name = "") =>
     name
@@ -77,16 +64,16 @@ export default function Navbar() {
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.4 }}
-        className="sticky top-0 z-50 w-full bg-white shadow-md dark:bg-gray-900"
+        className="sticky top-0 z-50 w-full bg-white shadow-md"
       >
         <div className="relative flex items-center justify-between px-6 py-4 mx-auto max-w-7xl">
-          <Link to="/" className="text-2xl font-bold dark:text-white">
-            <span className="text-blue-700">MANUEL</span>
+          <Link to="/" className="text-2xl font-bold text-blue-700">
+            <span>MANUEL</span>
             <span className="text-gray-600"> AIG</span>
           </Link>
 
           {/* Desktop Nav */}
-          <ul className="absolute hidden gap-6 font-medium text-gray-700 -translate-x-1/2 md:flex left-1/2 dark:text-white">
+          <ul className="absolute hidden gap-6 font-medium text-gray-700 -translate-x-1/2 md:flex left-1/2">
             {navLinks.map((link) => (
               <li key={link.path}>
                 <Link
@@ -108,7 +95,7 @@ export default function Navbar() {
           </ul>
 
           {/* Desktop Actions */}
-          <div className="items-center hidden gap-6 text-gray-700 md:flex dark:text-white relative">
+          <div className="items-center hidden gap-6 text-gray-700 md:flex relative">
             <Link to="/cart" className="relative hover:text-blue-600">
               <ShoppingCart className="w-5 h-5" />
               {cartCount > 0 && (
@@ -122,7 +109,7 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="flex items-center gap-2 px-3 py-1 border rounded-full dark:border-gray-700 border-gray-300"
+                  className="flex items-center gap-2 px-3 py-1 border rounded-full border-gray-300"
                 >
                   <div className="w-7 h-7 bg-blue-500 text-white flex items-center justify-center rounded-full text-xs font-bold">
                     {getInitials(user.name)}
@@ -132,17 +119,17 @@ export default function Navbar() {
                 </button>
 
                 {dropdownOpen && (
-                  <div className="absolute right-0 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg py-2 w-48 z-50">
+                  <div className="absolute right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-lg py-2 w-48 z-50">
                     <Link
                       to="/profile"
-                      className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                      className="block px-4 py-2 text-sm hover:bg-gray-100"
                       onClick={() => setDropdownOpen(false)}
                     >
                       Profile
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                     >
                       Logout
                     </button>
@@ -156,10 +143,9 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile Buttons */}
+          {/* Mobile Button */}
           <div className="flex items-center gap-4 md:hidden">
-            
-            <button onClick={() => setMobileOpen(true)} className="text-gray-700 dark:text-white">
+            <button onClick={() => setMobileOpen(true)} className="text-gray-700">
               <Menu className="w-6 h-6" />
             </button>
           </div>
@@ -167,8 +153,8 @@ export default function Navbar() {
       </motion.nav>
 
       {/* Mobile Cart Sticky Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white shadow-inner p-2 flex items-center justify-between md:hidden dark:bg-gray-900">
-        <Link to="/cart" className="flex items-center gap-2 text-gray-800 dark:text-white">
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white shadow-inner p-2 flex items-center justify-between md:hidden">
+        <Link to="/cart" className="flex items-center gap-2 text-gray-800">
           <ShoppingCart className="w-5 h-5" />
           Cart ({cartCount})
         </Link>
@@ -181,31 +167,36 @@ export default function Navbar() {
             Logout
           </button>
         ) : (
-          <Link to="/login" className="text-blue-600 text-sm font-semibold">Login</Link>
+          <Link to="/login" className="text-blue-600 text-sm font-semibold">
+            Login
+          </Link>
         )}
       </div>
 
       {/* Mobile Sidebar */}
       {mobileOpen && (
         <>
-          <div className="fixed inset-0 z-40  bg-opacity-30" onClick={() => setMobileOpen(false)}></div>
+          <div className="fixed inset-0 z-40 bg-black/20" onClick={() => setMobileOpen(false)}></div>
 
-          <div className="fixed top-0 left-0 z-50 w-64 h-full bg-white dark:bg-gray-900 shadow-lg transition-transform ease-in-out duration-300">
-            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-              <Link to='/'>
-              <img src="/images/emma2.png" className="w-16 h-15" /></Link>
-              <button onClick={() => setMobileOpen(false)} className="text-gray-700 dark:text-white">
+          <div className="fixed top-0 left-0 z-50 w-64 h-full bg-white shadow-lg transition-transform ease-in-out duration-300">
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <Link to="/">
+                <img src="/images/emma2.png" className="w-16 h-15" />
+              </Link>
+              <button onClick={() => setMobileOpen(false)} className="text-gray-700">
                 <X className="w-6 h-6" />
               </button>
             </div>
 
-            <ul className="flex flex-col gap-4 p-4 font-medium text-gray-700 dark:text-white">
+            <ul className="flex flex-col gap-4 p-4 font-medium text-gray-700">
               {navLinks.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
                     onClick={() => setMobileOpen(false)}
-                    className={cn(active === link.path ? "text-blue-600 font-semibold" : "hover:text-blue-600")}
+                    className={cn(
+                      active === link.path ? "text-blue-600 font-semibold" : "hover:text-blue-600"
+                    )}
                   >
                     {link.name}
                   </Link>

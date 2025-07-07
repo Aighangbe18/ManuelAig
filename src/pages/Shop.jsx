@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Search, PackageSearch } from "lucide-react";
 import ProductCard from "../components/ProductCard";
-import Footer from "../components/Footer";
 
 
 
@@ -88,7 +87,7 @@ export default function Shop() {
 
     const resetTimer = () => {
       clearTimeout(timeout);
-      timeout = setTimeout(scrollWindow, 5000);
+      timeout = setTimeout(scrollWindow, 2000);
     };
 
     const events = ["scroll", "mousemove", "keydown", "click"];

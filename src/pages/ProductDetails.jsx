@@ -99,7 +99,7 @@ export default function ProductDetails() {
         <img
           src={product.image}
           alt={product.name}
-          className="object-cover w-full h-[400px] rounded-2xl"
+          className="object-contain w-full h-[400px] rounded-2xl"
         />
       </motion.div>
 

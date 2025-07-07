@@ -14,7 +14,7 @@ export default function ProductCard({ product }) {
         <motion.img
           src={product.image}
           alt={product.name}
-          className="object-cover w-full h-64 transition-transform duration-300 hover:scale-110"
+          className="object-contain w-full h-64 transition-transform duration-300 hover:scale-110"
         />
       </div>
 

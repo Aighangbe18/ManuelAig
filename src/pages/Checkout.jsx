@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { ShoppingCart } from "lucide-react";
+import API from "../lib/api"; // ✅ use your configured axios instance
 
 export default function Checkout() {
   const [cartItems, setCartItems] = useState([]);
@@ -61,25 +61,19 @@ export default function Checkout() {
 
     try {
       setLoading(true);
-      await axios.post(
-        "/api/orders",
-        {
-          billing: {
-            name: name.trim(),
-            email: email.trim(),
-            address: address.trim(),
-            city: city.trim(),
-            postalCode: postalCode.trim(),
-          },
-          items: cartItems,
-          total: grandTotal,
+
+      // ✅ Use your custom axios instance (API)
+      await API.post("/orders", {
+        billing: {
+          name: name.trim(),
+          email: email.trim(),
+          address: address.trim(),
+          city: city.trim(),
+          postalCode: postalCode.trim(),
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+        items: cartItems,
+        total: grandTotal,
+      });
 
       localStorage.setItem("recentOrderAmount", grandTotal.toFixed(2));
       localStorage.removeItem("cart");
@@ -127,7 +121,9 @@ export default function Checkout() {
                 type={field === "email" ? "email" : "text"}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={billing[field]}
-                onChange={(e) => setBilling({ ...billing, [field]: e.target.value })}
+                onChange={(e) =>
+                  setBilling({ ...billing, [field]: e.target.value })
+                }
                 required
               />
             </div>
@@ -185,7 +181,9 @@ export default function Checkout() {
           onClick={handlePlaceOrder}
           disabled={loading}
           className={`w-full py-3 mt-6 text-white rounded-full font-semibold transition ${
-            loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+            loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700"
           }`}
         >
           {loading ? "Placing Order..." : "Place Order"}

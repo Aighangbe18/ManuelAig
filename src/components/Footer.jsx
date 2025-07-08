@@ -38,7 +38,7 @@ export default function Footer() {
 
   return (
     <motion.footer
-      className="mt-16 bg-gray-100 text-gray-600"
+      className="bg-gray-100 text-gray-600"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}

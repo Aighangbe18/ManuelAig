@@ -36,10 +36,18 @@ export default function Checkout() {
   const grandTotal = itemsTotal + shipping;
 
   const handlePlaceOrder = async () => {
-    const token = localStorage.getItem("token");
     const storedUser = localStorage.getItem("user");
 
-    if (!storedUser || !token) {
+    if (!storedUser) {
+      alert("You must be logged in to place an order.");
+      navigate("/login");
+      return;
+    }
+
+    const user = JSON.parse(storedUser);
+    const token = user.token;
+
+    if (!token) {
       alert("You must be logged in to place an order.");
       navigate("/login");
       return;
@@ -73,8 +81,9 @@ export default function Checkout() {
         }
       );
 
+      localStorage.setItem("recentOrderAmount", grandTotal.toFixed(2));
       localStorage.removeItem("cart");
-      navigate("/order-success");
+      navigate("/payment");
     } catch (err) {
       alert("Order failed: " + (err.response?.data?.message || err.message));
     } finally {
@@ -84,12 +93,7 @@ export default function Checkout() {
 
   if (cartItems.length === 0) {
     return (
-      <motion.div
-        className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-white text-center p-10"
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6 }}
-      >
+      <motion.div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-white text-center p-10">
         <ShoppingCart className="w-20 h-20 text-blue-600 mb-6" />
         <h2 className="text-3xl font-bold text-gray-800 mb-2">Your Cart is Empty</h2>
         <p className="text-gray-500 mb-6">You haven’t added any products yet.</p>
@@ -124,7 +128,6 @@ export default function Checkout() {
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={billing[field]}
                 onChange={(e) => setBilling({ ...billing, [field]: e.target.value })}
-                placeholder={field === "postalCode" ? "100001" : ""}
                 required
               />
             </div>
@@ -144,22 +147,27 @@ export default function Checkout() {
           {cartItems.map((item) => (
             <div
               key={item.id}
-              className="flex justify-between pb-2 border-b border-gray-300"
+              className="flex items-center gap-4 pb-4 border-b border-gray-300"
             >
-              <div>
+              <img
+                src={item.image || "https://via.placeholder.com/100"}
+                alt={item.name}
+                className="w-16 h-16 object-cover rounded-md shadow"
+              />
+              <div className="flex-1">
                 <p className="font-medium text-gray-700">{item.name}</p>
                 <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
               </div>
-              <p className="font-semibold text-blue-600">
+              <p className="font-semibold text-blue-600 text-right">
                 ${(item.price * item.quantity).toFixed(2)}
               </p>
             </div>
           ))}
         </div>
 
-        <div className="my-6 border-t border-gray-300" />
+        <div className="border-gray-300" />
         <div className="space-y-2 text-gray-700">
-          <div className="flex justify-between">
+          <div className="flex justify-between pt-3">
             <span>Items Total</span>
             <span>${itemsTotal.toFixed(2)}</span>
           </div>
@@ -177,9 +185,7 @@ export default function Checkout() {
           onClick={handlePlaceOrder}
           disabled={loading}
           className={`w-full py-3 mt-6 text-white rounded-full font-semibold transition ${
-            loading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700"
+            loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
           }`}
         >
           {loading ? "Placing Order..." : "Place Order"}

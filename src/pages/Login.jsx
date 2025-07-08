@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import API from "../lib/api"; // Make sure this handles baseURL and axios instance
+import API from "../lib/api"; // axios instance with baseURL
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -18,17 +18,23 @@ export default function Login() {
     try {
       const res = await API.post("/auth/login", form);
 
-      // Save token and user data to localStorage
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      const { token, user } = res.data;
 
-      // Optional: Set default Authorization header for future requests
-      API.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${res.data.token}`;
+      // Save user + token together
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ ...user, token })
+      );
 
-      // Redirect
-      navigate("/");
+      // Set default auth header for future API requests
+      API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      // ✅ Redirect: Admin → /admin/orders, User → /
+      if (user.isAdmin) {
+        navigate("/admin/orders");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       setError("❌ Invalid email or password");
     }

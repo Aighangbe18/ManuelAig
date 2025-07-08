@@ -213,7 +213,7 @@ export default function Navbar() {
                   Cart ({cartCount})
                 </Link>
               </li>
-
+                <Link to="/profile" onClick={() => setIsOpen(false)} className="block">Profile</Link>
               <li>
                 {user ? (
                   <div className="flex items-center justify-between">

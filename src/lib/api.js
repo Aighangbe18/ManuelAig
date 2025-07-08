@@ -3,16 +3,21 @@ import axios from 'axios';
 const API = axios.create({
   baseURL:
     import.meta.env.MODE === 'development'
-      ? 'http://localhost:5000/api' // ✅ Local backend with /api prefix
-      : 'https://manuelbackend-1.onrender.com/api', // ✅ Live backend with /api
-  withCredentials: true, // ✅ Required for CORS with cookies/token headers
+      ? 'http://localhost:5000/api' // 🔧 Local backend with `/api`
+      : 'https://manuelbackend-1.onrender.com/api', // 🌐 Production backend
+  withCredentials: true, // ✅ Allows sending cookies or auth headers
 });
 
-// ✅ Auto-attach token for protected routes
+// ✅ Attach JWT token (if available) to every request
 API.interceptors.request.use((req) => {
-  const token = localStorage.getItem('token');
-  if (token) req.headers.Authorization = `Bearer ${token}`;
+  const user = JSON.parse(localStorage.getItem('user'));
+  const token = user?.token;
+
+  if (token) {
+    req.headers.Authorization = `Bearer ${token}`;
+  }
+
   return req;
 });
 
- export default API;
+export default API;

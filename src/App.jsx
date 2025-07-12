@@ -26,6 +26,7 @@ import UsersPage from "./pages/admin/UsersPage";
 import ProductsPage from "./pages/admin/ProductsPage";
 import AdminProtectedLayout from "./components/AdminProtectedLayout"; // ✅ Admin gatekeeper
 import PaymentPage from "./pages/PaymentPage";
+import AdminOders from "./pages/admin/AdminOders";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -68,7 +69,7 @@ export default function App() {
           {/* Admin Routes (protected & nested) */}
           <Route path="/admin" element={<AdminProtectedLayout />}>
             <Route element={<AdminLayout />}>
-              <Route path="orders" element={<AdminOrders />} />
+              <Route path="orders" element={<AdminOders />} />
               <Route path="users" element={<UsersPage />} />
               <Route path="products" element={<ProductsPage />} />
             </Route>
